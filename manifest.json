@@ -1,0 +1,19 @@
+{
+    "required_api_version": "^2.0.0",
+    "name": "Niri Windows",
+    "description": "Focus a windows in Niri",
+    "developer_name": "Lorenzo Carbonell <a.k.a. atareao>",
+    "icon": "images/icon.png",
+    "options": {
+        "query_debounce": 0.05
+    },
+    "preferences": [
+        {
+            "id": "keyword",
+            "type": "keyword",
+            "name": "Niri Windows",
+            "description": "Focus a window in Niri",
+            "default_value": "n"
+        }
+    ]
+}

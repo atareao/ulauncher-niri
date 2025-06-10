@@ -6,10 +6,7 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
-from niri import Window
-import subprocess
-
-
+from niri import Niri, Window
 
 
 logger = logging.getLogger(__name__)
@@ -22,12 +19,20 @@ class NiriWindowsExtension(Extension):
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
         self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
+
 class KeywordQueryEventListener(EventListener):
 
-    def on_event(self, event, extension):
+    def on_event(self, event, _extension):
+        logger.debug(event)
         search_keyword = event.get_query().get_argument("").lower().split()
+        logger.debug("Search keyword: %s", search_keyword)
         if not search_keyword:
             return
+        items = list([
+            self.get_result_item(w) for w in Niri.get_windows() if self.matches_query(w, search_keyword) and not w.is_focused()])
+
+        logger.debug("Found %d windows matching the query", len(items))
+        return RenderResultListAction(items)
 
     def matches_query(self, window: Window, query: list[str]):
         '''Enable word-wise fuzzy searching'''

@@ -78,12 +78,11 @@ class Window:
 
         return "images/default.svg"
 
-    def focus():
+    def focus(self):
         command = ["niri", "msg", "action", "focus-window", "--id",
                    str(self.get_id())]
         response = subprocess.check_output(command)
         logger.debug("Focus command response: %s", response.decode().strip())
-
 
     @staticmethod
     def icon_loader(name):
